@@ -1,0 +1,17 @@
+services:
+  vaistynas_nginx:
+    build: ./nginx
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "80:80"
+    volumes:
+      - ../src:/srv/www
+  vaistynas_node:
+    image: "node:19-bullseye"
+    user: "node"
+    working_dir: /home/node/app
+    volumes:
+      - /frontend:/home/node/app
+    ports:
+      - "1000:1000"
