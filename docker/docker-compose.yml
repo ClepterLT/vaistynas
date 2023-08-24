@@ -1,17 +1,31 @@
 services:
   vaistynas_nginx:
+    container_name: vaistynas_nginx
     build: ./nginx
     environment:
       - NODE_ENV=production
     ports:
       - "80:80"
+      - "443:443"
+    networks:
+      - web
     volumes:
-      - ../src:/srv/www
+      - ../ssl:/etc/nginx/ssl
   vaistynas_node:
-    image: "node:19-bullseye"
+    container_name: vaistynas_node
+    build:
+      context: ../
+      dockerfile: ./docker/node/Dockerfile
     user: "node"
-    working_dir: /home/node/app
+    networks:
+      - web
     volumes:
-      - /frontend:/home/node/app
+      - ../src/frontend:/app
     ports:
-      - "1000:1000"
+      - "3000:3000"
+    depends_on:
+      - vaistynas_nginx
+
+networks:
+  web:
+    external: true

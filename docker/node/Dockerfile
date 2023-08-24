@@ -2,16 +2,16 @@
 FROM node:19-bullseye
 
 # create the directory inside the container
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# copy the package.json files from local machine to the workdir in container
-COPY package*.json ./
+ENTRYPOINT ["tail", "-f", "/dev/null"]
+#COPY ./src/frontend .
 
-# run npm install in our local machine
-RUN npm install
+#RUN npm install
 
-# copy the generated modules and all other files to the container
-COPY . .
+#CMD ["npm", "run", "dev"]
 
-# our app is running on port 5000 within the container, so need to expose it
-EXPOSE 1000
+#ENTRYPOINT ["tail", "-f", "/dev/null"]
+
+# our app is running on port 1000 within the container, so need to expose it
+#EXPOSE 3000
